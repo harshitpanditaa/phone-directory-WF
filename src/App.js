@@ -12,9 +12,9 @@ function App() {
 
   // Initial subscriber data
   const initialSubscribers = [
-    { id: 1, name: 'John Doe', phone: '1234567890', address: '123 Main St' },
-    { id: 2, name: 'Jane Smith', phone: '9876543210', address: '456 Oak Ave' },
-    { id: 3, name: 'Bob Johnson', phone: '5555555555', address: '789 Pine Rd' }
+    { id: 1, name: 'Anil', phone: '1234567890', address: '123 New Delhi' },
+    { id: 2, name: 'Pratibha', phone: '9876543210', address: '456 Gurugram' },
+    { id: 3, name: 'Vikas', phone: '5555555555', address: '789 Ring Road' }
   ];
 
   const handleAdd = () => {
