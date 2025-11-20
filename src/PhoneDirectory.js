@@ -1,66 +1,64 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-function PhoneDirectory({ 
-  initialSubscribers, 
-  nameRef, 
-  phoneRef, 
-  addressRef, 
-  tbodyRef, 
-  errorRef, 
-  onAdd, 
-  onDelete 
+function PhoneDirectory({
+  subscribers,
+  nameRef,
+  phoneRef,
+  addressRef,
+  errorRef,
+  onAdd,
+  onDelete,
+  searchText,
+  setSearchText,
+  sortOption,
+  setSortOption
 }) {
-
-  useEffect(() => {
-  // Only add initial rows if the table is empty
-  if (tbodyRef.current && tbodyRef.current.children.length === 0) {
-    initialSubscribers.forEach(subscriber => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${subscriber.id}</td>
-        <td>${subscriber.name}</td>
-        <td>${subscriber.phone}</td>
-        <td>${subscriber.address}</td>
-        <td><button class="delete-btn">Delete</button></td>
-      `;
-      const deleteBtn = row.querySelector('.delete-btn');
-      deleteBtn.onclick = () => onDelete(row);
-      tbodyRef.current.appendChild(row);
-    });
-  }
-}, [initialSubscribers, tbodyRef, onDelete]);
-
   return (
     <div className="phone-directory">
       <h2>Phone Directory</h2>
-
       <div className="form-container">
-        <input 
-          type="text" 
-          ref={nameRef} 
-          placeholder="Name" 
+        <input
+          type="text"
+          ref={nameRef}
+          placeholder="Name"
           className="input-field"
         />
-        <input 
-          type="text" 
-          ref={phoneRef} 
-          placeholder="Phone" 
+        <input
+          type="text"
+          ref={phoneRef}
+          placeholder="Phone"
           className="input-field"
         />
-        <input 
-          type="text" 
-          ref={addressRef} 
-          placeholder="Address" 
+        <input
+          type="text"
+          ref={addressRef}
+          placeholder="Address"
           className="input-field-address"
         />
       </div>
-
       <div className="button-container">
         <button onClick={onAdd} className="add-btn">Add</button>
       </div>
-
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
+        <input
+          type="text"
+          placeholder="Search Name"
+          className="input-field"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+        <select
+          value={sortOption}
+          onChange={(e) => setSortOption(e.target.value)}
+          className="input-field"
+        >
+          <option value="ID_ASC">Sort by: ID Asc</option>
+          <option value="ID_DESC">Sort by: ID Desc</option>
+          <option value="NAME_AZ">Name A→Z</option>
+          <option value="NAME_ZA">Name Z→A</option>
+        </select>
+      </div>
       <div ref={errorRef} className="error-message"></div>
-
       <table className="subscriber-table">
         <thead>
           <tr>
@@ -71,8 +69,18 @@ function PhoneDirectory({
             <th>Action</th>
           </tr>
         </thead>
-        <tbody ref={tbodyRef}>
-          {/* Rows will be added via DOM manipulation */}
+        <tbody>
+          {subscribers.map(sub => (
+            <tr key={sub.id}>
+              <td>{sub.id}</td>
+              <td>{sub.name}</td>
+              <td>{sub.phone}</td>
+              <td>{sub.address}</td>
+              <td>
+                <button className="delete-btn" onClick={() => onDelete(sub.id)}>Delete</button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
